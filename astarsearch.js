@@ -77,25 +77,25 @@ $(document).ready(function(){
 
         var path=[];
         var openList=[];
-        var closeList=[].concat(wall);
+        var closedList=[].concat(wall);
         var mX=x,mY=y; 
-        closeList.push([mX,mY]);
+        closedList.push([mX,mY]);
  
         while(!(mX==rX&&mY==rY)){
 
-            if(mX-1!=-1&&mX-1!=s&&!isInArr(closeList,mX-1,mY)&&!isInArr(openList,mX-1,mY)){
+            if(mX-1!=-1&&mX-1!=s&&!isInArr(closedList,mX-1,mY)&&!isInArr(openList,mX-1,mY)){
               openList.push([mX-1,mY,getF([mX-1,mY]),mX,mY,]);
             };
 
-            if(mY+1!=-1&&mY+1!=s&&!isInArr(closeList,mX,mY+1)&&!isInArr(openList,mX,mY+1)){
+            if(mY+1!=-1&&mY+1!=s&&!isInArr(closedList,mX,mY+1)&&!isInArr(openList,mX,mY+1)){
               openList.push([mX,mY+1,getF([mX,mY+1]),mX,mY,]);
             };
 
-            if(mX+1!=-1&&mX+1!=s&&!isInArr(closeList,mX+1,mY)&&!isInArr(openList,mX+1,mY)){
+            if(mX+1!=-1&&mX+1!=s&&!isInArr(closedList,mX+1,mY)&&!isInArr(openList,mX+1,mY)){
               openList.push([mX+1,mY,getF([mX+1,mY]),mX,mY,]);
             };
 
-            if(mY-1!=-1&&mY-1!=s&&!isInArr(closeList,mX,mY-1)&&!isInArr(openList,mX,mY-1)){
+            if(mY-1!=-1&&mY-1!=s&&!isInArr(closedList,mX,mY-1)&&!isInArr(openList,mX,mY-1)){
               openList.push([mX,mY-1,getF([mX,mY-1]),mX,mY,]);
             };
             
@@ -135,14 +135,14 @@ $(document).ready(function(){
             }
 
             drawBody([openOut],'orange');
-            closeList.push(openOut);
+            closedList.push(openOut);
             mX=openOut[0];
             mY=openOut[1];
         };
 
-        var len=closeList.length;      
+        var len=closedList.length;      
         path.unshift([rX,rY]);   
-        path.unshift([closeList[len-1][3],closeList[len-1][4]]);
+        path.unshift([closedList[len-1][3],closedList[len-1][4]]);
 
         var a=path[0][0];
         var b=path[0][1];
@@ -152,8 +152,8 @@ $(document).ready(function(){
 
             for (var i = len-1-ss; i >=0; i--) {
 
-              if(closeList[i][0]==a&&closeList[i][1]==b){
-                  path.unshift([closeList[i][3],closeList[i][4]]);
+              if(closedList[i][0]==a&&closedList[i][1]==b){
+                  path.unshift([closedList[i][3],closedList[i][4]]);
                   ss=len-i;
                   break;
               }
