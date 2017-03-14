@@ -1,4 +1,4 @@
-var s=30; 
+var s=60; 
 
 var x=Math.floor(Math.random()*s),
     y=Math.floor(Math.random()*s);
@@ -37,8 +37,6 @@ $(document).ready(function(){
         });
     });
 
-
-  
     draw(x,y,'red')
     draw(rX,rY,'green')
 
@@ -50,10 +48,8 @@ $(document).ready(function(){
     }
 
     function drawBody(arr,color){
-
         var i=0;
         var arrLen=arr.length;
-
         var timer=setInterval(function(){
 
             if(i<arrLen){
@@ -67,9 +63,8 @@ $(document).ready(function(){
         },100);
     }  
 
-
     function isInArr(arr,aX,aY){
-      var k;
+      var k=false;
       arr.forEach(function(item){
           if(item[0]==aX&&item[1]==aY){
               k=true;
@@ -78,32 +73,29 @@ $(document).ready(function(){
       return k;
     }
 
-
     $('#ai').click(function(){
 
         var path=[];
         var openList=[];
         var closeList=[].concat(wall);
-
-        var mX=x,mY=y;
-       
+        var mX=x,mY=y; 
         closeList.push([mX,mY]);
  
         while(!(mX==rX&&mY==rY)){
 
-            if(mX-1!=-1&&mX-1!=s&&!isInArr(closeList,mX-1,mY)){
+            if(mX-1!=-1&&mX-1!=s&&!isInArr(closeList,mX-1,mY)&&!isInArr(openList,mX-1,mY)){
               openList.push([mX-1,mY,getF([mX-1,mY]),mX,mY,]);
             };
 
-            if(mY+1!=-1&&mY+1!=s&&!isInArr(closeList,mX,mY+1)){
+            if(mY+1!=-1&&mY+1!=s&&!isInArr(closeList,mX,mY+1)&&!isInArr(openList,mX,mY+1)){
               openList.push([mX,mY+1,getF([mX,mY+1]),mX,mY,]);
             };
 
-            if(mX+1!=-1&&mX+1!=s&&!isInArr(closeList,mX+1,mY)){
+            if(mX+1!=-1&&mX+1!=s&&!isInArr(closeList,mX+1,mY)&&!isInArr(openList,mX+1,mY)){
               openList.push([mX+1,mY,getF([mX+1,mY]),mX,mY,]);
             };
 
-            if(mY-1!=-1&&mY-1!=s&&!isInArr(closeList,mX,mY-1)){
+            if(mY-1!=-1&&mY-1!=s&&!isInArr(closeList,mX,mY-1)&&!isInArr(openList,mX,mY-1)){
               openList.push([mX,mY-1,getF([mX,mY-1]),mX,mY,]);
             };
             
@@ -113,23 +105,15 @@ $(document).ready(function(){
                 return [G,H,G+H];
             }
         
-            var oLen=openList.length;
-
             openList.sort(function(a,b){
               return b[2][2]-a[2][2];
             });
 
             var openOut=openList.pop();
-
             drawBody([openOut],'orange');
-
             closeList.push(openOut);
-            
             mX=openOut[0];
             mY=openOut[1];
-
-        
-
         };
 
         var len=closeList.length;      
@@ -149,9 +133,7 @@ $(document).ready(function(){
                   ss=len-i;
                   break;
               }
-
             }
-
             a=path[0][0];
             b=path[0][1];
         }
