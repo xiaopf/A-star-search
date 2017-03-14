@@ -109,7 +109,31 @@ $(document).ready(function(){
               return b[2][2]-a[2][2];
             });
 
-            var openOut=openList.pop();
+            var oLen=openList.length;
+
+            console.log(openList,oLen);
+
+            if(oLen>1&&(openList[oLen-1][2][2]==openList[oLen-2][2][2])){
+
+                var openListSlice=new Array(0);
+                openListSlice=openList.slice(oLen-2);
+
+                console.log(openListSlice);
+
+                var olLen=openListSlice.length;
+
+                openListSlice.sort(function(a,b){
+                   return b[2][1]-a[2][1];
+                });
+
+                var openOut=openListSlice.pop(); 
+
+                openList.splice(openList.indexOf(openOut),1)
+
+            }else{
+                var openOut=openList.pop(); 
+            }
+
             drawBody([openOut],'orange');
             closeList.push(openOut);
             mX=openOut[0];
